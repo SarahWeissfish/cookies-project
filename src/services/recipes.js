@@ -25,8 +25,8 @@ export const addRecipe=(recipe,user)=>
 {
     return dispatch=>
     axios.post('http://localhost:8080/api/recipe',recipe)
-    .then(()=>{
-        dispatch({type:ADD_RECIPE,data:recipe})
+    .then((x)=>{
+        dispatch({type:ADD_RECIPE,data:x})
     })
     .catch(error=>console.error(error));
 }

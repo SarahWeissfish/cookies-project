@@ -18,7 +18,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-
+import Stack from '@mui/material/Stack';
 
 
 
@@ -96,7 +96,7 @@ export default function AddRecipe() {
   return (
     
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" >
         <CssBaseline />
 
        <Box
@@ -118,8 +118,9 @@ sx={{
           style={{ padding: '5%',backgroundColor:"whitesmoke", opacity: 0.8 }}
           sx={{
               
-            
+            width:"200%",
               marginTop: 8,
+              
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -136,7 +137,8 @@ sx={{
           <Box 
           
           
-          component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+          component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3
+           }}>
             <Grid container spacing={2}>
               <Grid item xs={12} >
                 <TextField
@@ -165,11 +167,12 @@ sx={{
                   helperText={errors.Description?.message}
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
-              <FormControl >
-                    <InputLabel>CategoryId</InputLabel>
+              <Stack  alignItems='center' paddingTop={2} direction="row">
+              <Grid item xs={12} >
+              <FormControl item xs={12}>
+                    <InputLabel item xs={12}>CategoryId</InputLabel>
                     <Select {...register("CategoryId")} error={!!errors.CategoryId} displayEmpty>
-                        {Categories.map((x) => (
+                        { Categories?.map((x) => (
                             <MenuItem key={x.Id} value={x.Id}>
                                 {x.Name}
                             </MenuItem>
@@ -177,7 +180,8 @@ sx={{
                     </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={4}>
+              
+              <Grid item xs={12} >
               <FormControl >
                     <InputLabel>Difficulty</InputLabel>
                     <Select {...register("Difficulty")} error={!!errors.Difficulty} displayEmpty helperText={errors.Difficulty?.message}>
@@ -189,7 +193,7 @@ sx={{
                     </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} >
                 <TextField
                  
                   nullable
@@ -200,36 +204,42 @@ sx={{
                     error={!!errors.Duration}
                      helperText={errors.Duration?.message} 
                 />
-              </Grid>
+              </Grid></Stack>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
+                  id="img"
                   label="Img URL" 
                   {...register("Img")} 
                   error={!!errors.Img}
                    helperText={errors.Img?.message}
                 />
               </Grid>
+              <Stack direction="row" spacing ={2} paddingTop={2}>
+              <Box>
               <Grid item xs={12} >
+                
                     {  Ingredients?.map((item, index) => (
                         <div key={index} style={{display:'flex',flexDirection:'column',alignItems:'center', opacity: 0.8}}>
-                            <Grid item xs={12} sm={4}>
+                          <Stack sx={{alignItems:'center'}} direction="row"> <Grid item xs={12} sm={12}>
                             <TextField type="text" label="product name:"  {...register(`  Ingredients.${index}.Name`)} />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item xs={5} sm={5}>
                             <TextField label="count:" {...register(`Ingrident.${index}.Count`)} />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item xs={12} sm={5}>
                             <TextField type="text" label="type:" {...register(`Ingrident.${index}.Type`)} />
-                            </Grid>
+                            </Grid></Stack> 
                         </div>
                     ))}
                 </Grid>
-                <Button variant="outlined" startIcon={<AddIcon />} onClick={() => appendIngridents({ Name: "", Count: 0, Type: "" })}>
+               
+               <Button  xs={12}variant="outlined" startIcon={<AddIcon />} onClick={() => appendIngridents({ Name: "", Count: 0, Type: "" })}>
                     ADD INGRIDENT
                 </Button>
+                </Box>
+                <Box>
                 <Grid item sx={12}>
                     {Instructions?.map((item, index) => (
                         <Grid item xs={12} key={index}>
@@ -237,10 +247,13 @@ sx={{
                         </Grid>
                     ))}
                 </Grid>
-                <Button variant="outlined" startIcon={<AddIcon />} onClick={() => appendInstructions(" ")}>
+                
+                
+                <Button xs={12} variant="outlined" startIcon={<AddIcon />} onClick={() => appendInstructions(" ")}>
                     ADD INSTRUCTION
                 </Button>
-             
+                </Box>
+                </Stack>
             </Grid>
             <Button
               type="submit"

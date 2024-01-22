@@ -1,3 +1,28 @@
-.App {
+#homePage {
   text-align: center;
+  background-image: url(./images/DSC_0405-Edit.jpg);
+  background-size: cover;
+  background-position-x: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  /* height: 100vh; */
+}
+#cookies{
+
+font-size: 150px;
+opacity: 0.7;
+  
+}
+.detailes{
+  text-align: center;
+}
+.recipes{
+  text-align: center;
+  background-image: url(./images/DSC_0405-Edit.jpg);
+  background-size: cover;
+  background-position-x: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  /* height: 100vh; */
+
 }
