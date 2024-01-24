@@ -165,10 +165,10 @@ function deleteRecipes(Id) {
               diary, fleshy, sweet , sour , and also chocolate...
             </Typography>
             
-            <Button align="center" variant="outlined" startIcon={<AddIcon />} onClick={() => (navigate("/recipes/add"), { state: null })}>
+            {/* <Button align="center" variant="outlined" startIcon={<AddIcon />} onClick={() => (navigate("/recipes/add"), { state: null })}>
                 
             ADD RECIPE
-        </Button>
+        </Button> */}
         
             {/* <Stack
               sx={{ pt: 4 }}
@@ -207,8 +207,8 @@ function deleteRecipes(Id) {
             </Stack> */}
           </Container>)
           }
-           <div style={{ display: 'inline-flex' }}>
-           <Button startIcon={<AddIcon />} onClick={() => (navigate("/recipes/add"), { state: null })}>
+           <div align="center" style={{ display: 'inline-flex' }}>
+           <Button variant="outlined" startIcon={<AddIcon />} onClick={() => (navigate("/recipes/add"), { state: null })}>
                 
                 ADD RECIPE
             </Button>
@@ -309,7 +309,7 @@ function deleteRecipes(Id) {
         >
           You can also be part of this big project by sharing your recipe with us!
         </Typography>
-        <Button to ={"/recipes/add"} variant="outlined">Add Recipe</Button>
+       
         <Copyright />
       </Box>
       {/* End footer */}

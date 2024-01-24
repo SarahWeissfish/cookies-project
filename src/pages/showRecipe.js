@@ -136,23 +136,35 @@ export default (props) => {
 
 
     return (
-        <>
+        <div align="center">
 <Header/>
-        <Card id="detailes" sx={{ maxWidth: 500 }} style={{ marginLeft: 50 }}>
+
+
+         <Card sx= {{ maxWidth: 500 }} style={{ marginLeft: 50 ,marginTop:50}} >
+                <CardMedia
+                component="img"
+                alt="image"
+                height="300"
+                image={state.Img}
+            />
+         </Card>
+        <Card align="center" id="detailes" sx={{ maxWidth: 500 }} style={{margintTop:100 ,marginLeft: 50, marginTop:9 }}>
             {/* <CardMedia
                 component="img"
                 alt="image"
                 height="140"
                 image={props.props.Img}
             /> */}
+           
             <CardContent>
                 {/* <Typography gutterBottom variant="h5" component="div">
                     {props.props.Name}
                 </Typography> */}
-                <Typography variant="body2" color="text.secondary">
+                <Typography  style={{display:'flex',flexDirection:'column',alignItems:'center',}} variant="body2" color="text.secondary">
+                    <h1>{state.Name}</h1>
                     <h2>Description:</h2>
                     <h3> {state.Description}</h3>
-                   <Stack direction="row" spacing={2}>
+                   <Stack align="center" alignItems="center" direction="row" spacing={2}>
                     <div>{categories[state.CategoryId - 1]?.Name}</div>
                     <div> {state.Duration} minutes</div>               
                     <div>{difficulty[state.Difficulty - 1]}</div>
@@ -176,7 +188,7 @@ export default (props) => {
                 {/* <Button size="small">Share</Button>
                 <Button size="small">Learn More</Button> */}
             </CardActions>
-        </Card></>
+        </Card></div>
      );
 }
 

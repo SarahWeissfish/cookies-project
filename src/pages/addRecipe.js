@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { addRecipe, editRecipe } from '../services/recipes'
 import Header from './header'
+import Grid from '@mui/material/Grid';
+import CssBaseline from '@mui/material/CssBaseline';
+
 
 export default () => {
 
@@ -67,9 +70,11 @@ export default () => {
     return (
         <div className='add'>
             <Header/>
+           
+         
             
-            <form className='form' style={{padding: '15%'}} onSubmit={handleSubmit(onSubmit)}>
-                <TextField style={{align:"center" ,width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Recipe Name" {...register("Name")} error={!!errors.Name} helperText={errors.Name?.message} />
+            <form  style={{display:'flex',flexDirection:'column',alignItems:'center', opacity: 0.8,marginTop:9 }} className='form'  onSubmit={handleSubmit(onSubmit)}>
+                <TextField style={{ width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Recipe Name" {...register("Name")} error={!!errors.Name} helperText={errors.Name?.message} />
                 <br />
                 <TextField style={{ width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Description" {...register("Description")} error={!!errors.Description} helperText={errors.Description?.message} />
                 <br />
@@ -124,6 +129,8 @@ export default () => {
                 <br />
                 <Button variant="contained" color="primary" type="submit">Submit</Button>
             </form>
+         
+          
         </div>
     );
 }

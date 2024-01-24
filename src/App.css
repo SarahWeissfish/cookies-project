@@ -26,3 +26,12 @@ opacity: 0.7;
   /* height: 100vh; */
 
 }
+.add{
+  text-align: center;
+  background-image: url(https://images.squarespace-cdn.com/content/v1/51b0ea5de4b04c08cbce5c19/1528861108107-0KSULBP2ZTUERAC3EWOW/DSC_0101.jpg?format=1500w);
+  background-size: cover;
+  background-position-x: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+
+}
