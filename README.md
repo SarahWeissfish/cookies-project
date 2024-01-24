@@ -1,4 +1,4 @@
-בשביל להריץ את הפרויקא צריך להשתמש בNODE שבקישור https://github.com/SarahWeissfish/Node.js
+בשביל להריץ את הפרויקט צריך להשתמש בNODE שבקישור https://github.com/SarahWeissfish/Node.js
 
 #welcome to my cookies web site:)
 
