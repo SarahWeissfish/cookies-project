@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import Swal from "sweetalert2";
 import { ADD_RECIPE, DELETE_RECIPE, EDIT_RECIPE, SET_RECIPE } from "../store/action";
 
 export const getRecipes=()=>{
@@ -21,14 +21,32 @@ export const deleteRecipe = (x) => {
             .catch((error) => { console.error(error) })
     }
 }
-export const addRecipe=(recipe,user)=>
-{
-    return dispatch=>
-    axios.post('http://localhost:8080/api/recipe',recipe)
-    .then((x)=>{
-        dispatch({type:ADD_RECIPE,data:x})
-    })
-    .catch(error=>console.error(error));
+// export const addRecipe=(recipe,user)=>
+// {
+//     return dispatch=>
+//     axios.post('http://localhost:8080/api/recipe',recipe)
+//     .then((x)=>{
+//         dispatch({type:ADD_RECIPE,data:x})
+//     })
+//     .catch(error=>console.error(error));
+// }
+export const addRecipe = (data) => {
+    return dispatch => axios.post('http://localhost:8080/api/recipe',data)
+            .then((x) => {
+                dispatch({ type:ADD_RECIPE, data: x.data })
+                Swal.fire({
+                    position: "top",
+                    icon: "success",
+                    title: "Your Recipe has been added",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }).catch(() => Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "The recipe adding was failed",
+                footer: '<a href="#">retrying?</a>'
+            }));
 }
 export const editRecipe=(data,recipe)=>{
 return dispatch=>

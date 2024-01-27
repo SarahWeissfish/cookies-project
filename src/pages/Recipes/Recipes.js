@@ -1,29 +1,23 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
-import Header from './header'
+import Header from '../header'
 import CardContent from '@mui/material/CardContent';
-
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-
 import Container from '@mui/material/Container';
 import AddIcon from '@mui/icons-material/Add';
 import { useState, useEffect } from 'react'
-
 import { useSelector} from "react-redux"
 import { useNavigate ,Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom/dist';
-import { deleteRecipe, getRecipes } from '../services/recipes';
-import { addCategories, getCategories } from '../services/category';
+import { deleteRecipe, getRecipes } from '../../services/recipes';
+import { getCategories } from '../../services/category';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Swal from 'sweetalert2'
-import ShowRecipe from './showRecipe';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -65,7 +59,7 @@ export default function Recipes() {
     const[selectedCategory, setSelectedCategory]= useState(null);
     const [selectedDuration, setSelectedDuration] = useState(null);
     const [selectedDifficulty, setSelectedDifficulty] = useState(null);
-    const [ifAddCategory, setIfAddCategory] = useState(false);
+   
     const [showDetails, setShowDetails] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
 
@@ -136,7 +130,10 @@ function deleteRecipes(Id) {
 }
 
   return (
-    <div id="recipes">{user==null?<Alert severity="error">Oopsssss.... it seems that you are not connected...</Alert>:
+    <div id="recipes">{user==null?
+    <div id="error"><Alert severity="error">Oopsssss.... it seems that you are not connected...</Alert>
+    <Link to="/signin">sign in here!!</Link>
+    </div>:
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Header/>
@@ -213,15 +210,7 @@ function deleteRecipes(Id) {
                 ADD RECIPE
             </Button>
             
-           <Button variant="outlined" startIcon={<AddIcon />} onClick={() => setIfAddCategory(true)}>ADD CATEGORY </Button>
-        <br />
-        {ifAddCategory ?
-            <TextField style={{ width: '20%' }} label="Category Name"
-                onBlur={(e) => {
-                    dispatch(addCategories(e.target.value));
-                    setIfAddCategory(false)
-                }} />
-            : null}
+      
             <InputLabel>Category</InputLabel>
             <Select onChange={handelCategory} value={selectedCategory || ''}>
                 <MenuItem value="">
@@ -316,35 +305,3 @@ function deleteRecipes(Id) {
     </ThemeProvider>
  } </div> );
 }
-// {recipes.map(x => (!selectedCategory || x.CategoryId == selectedCategory) && (!selectedDuration || checkDuration(x.Duration)) && (!selectedDifficulty || selectedDifficulty == x.Difficulty) ?
-//     <div key={x.Id}>
-//         <Card sx={{ maxWidth: 500 }} style={{ marginLeft: 50, opacity: 0.8 }}>
-//             <h1>{x.Name}</h1>
-//             <CardMedia className='card'
-//                 component="img"
-//                 alt="image"
-//                 image={x.Img}
-//             />
-//             <CardActions className='cardAction'>
-//                 <Button size="small" startIcon={<ExpandMoreIcon />} onClick={() => {
-//                     setShowDetails(true);
-//                     setSelectedRecipe(x);
-//                 }}
-//                 > Recipe Details</Button>
-//                 <Button size="small" startIcon={<DeleteIcon />} disabled={x.UserId !== user.Id} onClick={() => deleteR(x.Id)} >
-//                 Delete
-//             </Button>
-//             <Button size="small" startIcon={<EditIcon />} disabled={x.UserId !== user.Id} onClick={() => (
-//                 navigate('/recipe/edit', { state: x })
-//             )}>
-//                 Edit
-//             </Button>
-//         </CardActions>
-//     </Card>
-
-//         { showDetails && selectedRecipe && selectedRecipe.Id === x.Id ? (
-//         <Recipe props={selectedRecipe} />
-//     ) : null}
-// </div>
-//     : null)
-// }

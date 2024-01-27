@@ -10,9 +10,10 @@ const ReducerRecipes=(state=initialState,action)=>
         return { ...state, recipes: action.data }
     }
     case(Action.ADD_RECIPE):{
+           
             const recipes = [...state.recipes];
             recipes.push(action.data);
-            return { ...state, recipes }
+            return { ...state, recipes}
     }
     case(Action.EDIT_RECIPE):
     {

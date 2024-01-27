@@ -5,18 +5,17 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-//import Link from '@mui/material/Link';
+import HomeIcon from '@mui/icons-material/Home';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import{useNavigate,Link,useLocation} from "react-router-dom"
-import {SetUser}from "../services/user"
+import {SetUser}from "../../services/user";
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Image from '../images/DSC_4478.jpg'
 import { useForm } from "react-hook-form"
 import {useDispatch} from"react-redux"
 function Copyright(props) {
@@ -36,7 +35,7 @@ const schema=yup.object({
     password:yup.string().min(3).required(),
     }).required();
 
-// TODO remove, this demo shouldn't need to reset the theme.
+
 
 const defaultTheme = createTheme();
 
@@ -44,35 +43,17 @@ export default function SignInSide() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const { state } = useLocation();
-//   {const handleSubmit = (data) => {
-//     data.preventDefault();
-//     const data = new FormData(event.currentTarget);
-//     console.log({
-//       email: data.get('email'),
-//       password: data.get('password'),
-//     });
-//   };
 const {register,
     handleSubmit,
     formState:{errors},
 }= useForm({resolver:yupResolver(schema),defaultValues:{userName:state?.Username,password:state?.password}})
-// const onSubmit=(event)=>{
-//     event.preventDefault();
-//     const data1=new FormData(event.currentTarget)
-//     const data={
-//         userName:data1.get("user name"),
-//         password:data1.get("password")
-
-//     }
-//     dispatch(SetUser(data,navigate))
-// }
 const onSubmit=(data)=>{
     
     dispatch(SetUser(data,navigate))
 }
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ height: '100vh' , zIndex:9}} >
         <CssBaseline />
         <Grid
           item
@@ -89,6 +70,7 @@ const onSubmit=(data)=>{
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Button startIcon={<HomeIcon  color="disabled"/>} onClick={()=>navigate("/")}></Button>
           <Box
             sx={{
               my: 8,
@@ -107,31 +89,27 @@ const onSubmit=(data)=>{
             </Typography>
             
             <Box component="form" noValidate   onSubmit={handleSubmit(onSubmit)}sx={{ mt: 1 }}>
-            {/* <form > */}
+       
               <TextField
                 margin="normal"
-                //required
+              
                 fullWidth
-                //id="userName"
+               
                 label="User Name"
-                //name="userName"
+             
                 {...register("userName")}
                 type="Name" 
                 error={!!errors.userName} 
                 helperText={errors.userName?.message}
-                // autoComplete="email"
+              
                 autoFocus
               />
               
               <TextField
                 margin="normal"
-                //required
-                fullWidth
-                //name="password"
+               fullWidth
                 label="Password"
                 type="password"
-                //id="password"
-                //autoComplete="current-password"
                 {...register("password")} 
                 error={!!errors.password} 
                 helperText={errors.password?.message}
@@ -157,12 +135,12 @@ const onSubmit=(data)=>{
                 </Grid>
                 <Grid item>
                   <Link to={"/signup"} variant="body2" color="grey">
-                    {"Don't have an account? Sign Up"}
+                    {"Don't have an account? Get started"}
                   </Link>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
-              {/* </form> */}
+           
             </Box>
            
           </Box>

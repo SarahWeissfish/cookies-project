@@ -88,6 +88,9 @@ export default function MenuAppBar() {
           <Button onClick={()=>{navigate("/myRecipes")}}variant="h6" component="div" sx={{ flexGrow: 1 }}>
             My Recipes
           </Button>
+          <Button onClick={()=>{navigate("/recipes/add")}}variant="h6" component="div" sx={{ flexGrow: 1 }}>
+           Add Recipe
+          </Button>
           <Button onClick={()=>{navigate("/cart")}}variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Cart
           </Button>

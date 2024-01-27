@@ -3,17 +3,19 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useSelector, useDispatch } from "react-redux";
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { TextField, Button, Select, MenuItem, FormControl, InputLabel,Card,CardActions,CardMedia,Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
-import { addRecipe, editRecipe } from '../services/recipes'
-import Header from './header'
+import { addRecipe, editRecipe } from '../../services/recipes'
+import Header from '../header'
 import Grid from '@mui/material/Grid';
-import CssBaseline from '@mui/material/CssBaseline';
 
+
+import { addCategories, getCategories } from '../../services/category';
+import SendIcon from '@mui/icons-material/Send';
 
 export default () => {
-
+    
     const schema = yup
         .object({
             Name: yup.string().required(),
@@ -33,13 +35,12 @@ export default () => {
         .required()
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const recipes = useSelector(state => state.recipes);
-    // const UserId = useSelector(state => state.user.user?.Id)
+
     const { state } = useLocation()
     const selectRecipe = state;
     const { UserId, Categories } = useSelector(state => ({
         UserId: state.user?.user?.Id,
-        // recipes: state.recipe.recipes,
+
         Categories: state.category.categories
     }))
     const {
@@ -57,28 +58,31 @@ export default () => {
     const { fields: Ingrident, append: appendIngridents } = useFieldArray({
         control, name: "Ingrident"
     });
+  
     const onSubmit = (data) => {
-        {
-            if (selectRecipe == null)
-                dispatch(addRecipe(data, UserId))
-            else
-                dispatch(editRecipe(data, selectRecipe))
-            navigate('/recipes')
-        }
+        const recipe = { UserId:  UserId, ...data, Id: state?.Id };
+        state !== null && dispatch(editRecipe((recipe))) || state == null && dispatch(addRecipe(recipe));
+        navigate('/recipes');
     }
     console.log(Categories);
+    const [ifAddCategory, setIfAddCategory] = useState(false);
+    useEffect(() => {
+      
+        if (!Categories.length)
+            dispatch(getCategories())
+    }, [])
     return (
-        <div className='add'>
+        <div className='add' alignItems="center">
             <Header/>
            
-         
-            
+          <Box id="addCard" sx={{  transform: 'scale(0.8)', width: '50%',backgroundColor:"whitesmoke", opacity: 0.7,paddingTop:9 }}  style={{ marginTop:50}}>
+            <Typography>Your Recipe</Typography>
             <form  style={{display:'flex',flexDirection:'column',alignItems:'center', opacity: 0.8,marginTop:9 }} className='form'  onSubmit={handleSubmit(onSubmit)}>
-                <TextField style={{ width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Recipe Name" {...register("Name")} error={!!errors.Name} helperText={errors.Name?.message} />
+                <TextField style={{ width: '80%' }} label="Recipe Name" {...register("Name")} error={!!errors.Name} helperText={errors.Name?.message} />
                 <br />
-                <TextField style={{ width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Description" {...register("Description")} error={!!errors.Description} helperText={errors.Description?.message} />
+                <TextField style={{ width: '80%' }} label="Description" {...register("Description")} error={!!errors.Description} helperText={errors.Description?.message} />
                 <br />
-                <FormControl style={{ width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }}>
+                <FormControl style={{ width: '80%'}}>
                     <InputLabel>CategoryId</InputLabel>
                     <Select {...register("CategoryId")} error={!!errors.CategoryId} displayEmpty>
                         {Categories.map((x) => (
@@ -89,11 +93,21 @@ export default () => {
                     </Select>
                 </FormControl>
                 <br />
-                <TextField style={{ width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Img URL" {...register("Img")} error={!!errors.Img} helperText={errors.Img?.message} />
+                <Button variant="outlined"  startIcon={<AddIcon />} onClick={() => setIfAddCategory(true)}>ADD CATEGORY </Button>
+                 <br />
+               {ifAddCategory ?
+               <TextField style={{ width: '80%',backgroundColor:"whitesmoke", opacity: 0.7  }} label="Category Name"
+                onBlur={(e) => {
+                    dispatch(addCategories(e.target.value));
+                    setIfAddCategory(false)
+                }} />
+            : null}
+            <br />
+                <TextField style={{ width: '80%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Img URL" {...register("Img")} error={!!errors.Img} helperText={errors.Img?.message} />
                 <br />
-                <TextField style={{ width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Duration" type="input" {...register("Duration")} error={!!errors.Duration} helperText={errors.Duration?.message} />
+                <TextField style={{ width: '80%',backgroundColor:"whitesmoke", opacity: 0.7 }} label="Duration" type="input" {...register("Duration")} error={!!errors.Duration} helperText={errors.Duration?.message} />
                 <br />
-                <FormControl style={{ width: '20%',backgroundColor:"whitesmoke", opacity: 0.7 }}>
+                <FormControl style={{ width: '80%',backgroundColor:"whitesmoke", opacity: 0.7 }}>
                     <InputLabel>Difficulty</InputLabel>
                     <Select {...register("Difficulty")} error={!!errors.Difficulty} displayEmpty helperText={errors.Difficulty?.message}>
                         {/* <MenuItem value="" disabled>Select Difficulty</MenuItem> */}
@@ -104,33 +118,34 @@ export default () => {
                     </Select>
                 </FormControl>
                 <br />
-                <div >
+                <div style={{alignSelf: "center"}} >
                     {Ingrident?.map((item, index) => (
-                        <div key={index} style={{display:'flex',flexDirection:'column',alignItems:'center', opacity: 0.8}}>
+                        <div key={index} style={{display:'flex',flexDirection:'row',alignItems:'center',width: '80%', opacity: 0.8,alignSelf: "center"}}>
                             <TextField type="text" label="product name:"  {...register(`Ingrident.${index}.Name`)} />
                             <TextField label="count:" {...register(`Ingrident.${index}.Count`)} />
                             <TextField type="text" label="type:" {...register(`Ingrident.${index}.Type`)} />
                         </div>
                     ))}
                 </div>
-                <Button variant="outlined" startIcon={<AddIcon />} onClick={() => appendIngridents({ Name: "", Count: 0, Type: "" })}>
+                <Button style={{width: '50%'}} variant="outlined" startIcon={<AddIcon />} onClick={() => appendIngridents({ Name: "", Count: 0, Type: "" })}>
                     ADD INGRIDENT
                 </Button>
+                <br/>
                 <div>
                     {Instructions?.map((item, index) => (
-                        <div key={index}>
-                            <TextField type="text" placeholder="enter Instruction:" {...register(`Instructions.${index}`)} />
+                        <div key={index} style={{width: '80%'}}>
+                            <TextField type="text" label="Instruction:"  placeholder="enter Instruction:" {...register(`Instructions.${index}`)} />
                         </div>
                     ))}
                 </div>
-                <Button variant="outlined" startIcon={<AddIcon />} onClick={() => appendInstructions(" ")}>
+                <Button style={{width: '50%'}} variant="outlined" startIcon={<AddIcon />} onClick={() => appendInstructions(" ")}>
                     ADD INSTRUCTION
                 </Button>
                 <br />
                 <Button variant="contained" color="primary" type="submit">Submit</Button>
             </form>
          
-          
+            </Box>
         </div>
     );
 }

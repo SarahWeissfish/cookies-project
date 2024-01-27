@@ -27,3 +27,28 @@ export const SetUser=(data,navigate)=> {
         })
     }
 }
+export const SignUp = (data, navigate) => {
+    // alert("dldjdj")
+    return dispatch => {
+        axios.post("http://localhost:8080/api/user/sighin", {Username: data.userName, Password: data.password,Name:data.Name,Email:data.Email,Phone:data.Phone,Tz:data.Tz})
+            .then((d) => {
+                // alert("dldjdj")
+                dispatch({ type: Actions.SET_USER, user: d.data })
+                Swal.fire({
+                    position: "top",
+                    title:  d.data.Name +`welcome`,
+                    showConfirmButton: false,
+                    timer: 1500
+                }) 
+                navigate("/");
+            }).catch(() => {
+                navigate('/signin');
+                Swal.fire({
+                    position: "top",
+                    title: "You have already an account",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            });
+    }
+}
