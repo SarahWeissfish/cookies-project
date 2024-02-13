@@ -17,10 +17,11 @@ const ReducerRecipes=(state=initialState,action)=>
     }
     case(Action.EDIT_RECIPE):
     {
+      
         const recipes = [...state.recipes];
-        const findIndex = recipes.findIndex(x => x.Id === action.data.Id);
-        recipes[findIndex] = action.data;
-        return { ...state, recipes }
+            const findIndex = recipes.findIndex(x => x.Id === action.data.Id);
+            recipes[findIndex] = action.data;
+            return { ...state, recipes }
     }
     case(Action.DELETE_RECIPE):{
         const recipes=state.recipes.filter(x=>x.Id!==action.data)
